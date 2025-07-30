@@ -6,10 +6,12 @@ A complete full-stack eCommerce web application for eco-friendly plants and gard
 
 ### User Management
 - ✅ User registration with input validation
+- ✅ **NEW: Beautiful signup.html with database integration**
 - ✅ Secure login/logout system
 - ✅ Password hashing (PHP's password_hash())
 - ✅ Session management with timeout
 - ✅ CSRF protection
+- ✅ **NEW: Newsletter subscription option**
 
 ### Product Management
 - ✅ Product categories system
@@ -32,12 +34,35 @@ A complete full-stack eCommerce web application for eco-friendly plants and gard
 - ✅ XSS protection
 - ✅ CSRF token validation
 - ✅ Session security
+- ✅ **NEW: Enhanced password strength validation**
 
 ### Design
 - ✅ Responsive design for all devices
 - ✅ Modern CSS with gradients and animations
 - ✅ Clean, eco-friendly green theme
 - ✅ Intuitive user interface
+- ✅ **NEW: Advanced signup form with real-time validation**
+
+## 🆕 Latest Updates - Signup System
+
+### ✨ **Enhanced User Registration**
+- **signup.html**: Beautiful, responsive signup form with modern design
+- **Database Integration**: Direct saving to MySQL with newsletter option
+- **Real-time Validation**: Client-side and server-side validation
+- **Password Strength**: Visual password strength indicator
+- **Error Handling**: Comprehensive error messages and success feedback
+- **CSRF Protection**: Token-based security for form submissions
+
+### 🔧 **New Files Added**
+- `signup.html` - Complete user registration interface
+- `get_csrf_token.php` - API endpoint for CSRF token generation
+- `migration_add_newsletter.sql` - Database migration for newsletter column
+
+### 🛠 **Updated Files**
+- `register.php` - Enhanced to handle new signup form fields
+- `database.sql` - Added newsletter column to users table
+- `index.html` & `products.html` - Added signup button to navigation
+- `login.html` - Updated signup link to point to new signup.html
 
 ## 🚀 Installation & Setup
 

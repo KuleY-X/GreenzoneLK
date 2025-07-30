@@ -14,47 +14,71 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email = sanitize_input($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
         $confirm_password = $_POST['confirm_password'] ?? '';
-        $full_name = sanitize_input($_POST['full_name'] ?? '');
+        
+        // Handle both old full_name field and new first_name/last_name fields
+        if (!empty($_POST['first_name']) || !empty($_POST['last_name'])) {
+            $first_name = sanitize_input($_POST['first_name'] ?? '');
+            $last_name = sanitize_input($_POST['last_name'] ?? '');
+            $full_name = trim($first_name . ' ' . $last_name);
+        } else {
+            $full_name = sanitize_input($_POST['full_name'] ?? '');
+        }
+        
         $phone = sanitize_input($_POST['phone'] ?? '');
         $address = sanitize_input($_POST['address'] ?? '');
+        $newsletter = isset($_POST['newsletter']) ? 1 : 0;
 
-        // Validation
+        // Validation with immediate redirects
         if (empty($username)) {
-            $errors[] = 'Username is required.';
+            header('Location: signup.html?error=invalid_data');
+            exit;
         } elseif (strlen($username) < 3) {
-            $errors[] = 'Username must be at least 3 characters long.';
+            header('Location: signup.html?error=invalid_data');
+            exit;
         } elseif (!preg_match('/^[a-zA-Z0-9_]+$/', $username)) {
-            $errors[] = 'Username can only contain letters, numbers, and underscores.';
+            header('Location: signup.html?error=invalid_data');
+            exit;
         }
 
         if (empty($email)) {
-            $errors[] = 'Email is required.';
+            header('Location: signup.html?error=invalid_data');
+            exit;
         } elseif (!validate_email($email)) {
-            $errors[] = 'Please enter a valid email address.';
+            header('Location: signup.html?error=invalid_data');
+            exit;
         }
 
         if (empty($password)) {
-            $errors[] = 'Password is required.';
-        } elseif (!validate_password($password)) {
-            $errors[] = 'Password must be at least ' . PASSWORD_MIN_LENGTH . ' characters long.';
+            header('Location: signup.html?error=invalid_data');
+            exit;
         }
 
         if ($password !== $confirm_password) {
-            $errors[] = 'Passwords do not match.';
+            header('Location: signup.html?error=password_mismatch');
+            exit;
         }
 
         if (empty($full_name)) {
-            $errors[] = 'Full name is required.';
+            header('Location: signup.html?error=invalid_data');
+            exit;
+        }
+
+        // Password strength validation
+        if (!validate_password($password)) {
+            header('Location: signup.html?error=weak_password');
+            exit;
         }
 
         // Check if username or email already exists
         if (empty($errors)) {
             if (get_user_by_username($username)) {
-                $errors[] = 'Username already exists. Please choose another one.';
+                header('Location: signup.html?error=username_exists');
+                exit;
             }
 
             if (get_user_by_email($email)) {
-                $errors[] = 'Email address already registered. Please use another email or login.';
+                header('Location: signup.html?error=email_exists');
+                exit;
             }
         }
 
@@ -63,12 +87,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $hashed_password = hash_password($password);
                 
-                $stmt = $pdo->prepare("INSERT INTO users (username, email, password, full_name, phone, address) 
-                                     VALUES (?, ?, ?, ?, ?, ?)");
+                $stmt = $pdo->prepare("INSERT INTO users (username, email, password, full_name, phone, address, newsletter) 
+                                     VALUES (?, ?, ?, ?, ?, ?, ?)");
                 
-                if ($stmt->execute([$username, $email, $hashed_password, $full_name, $phone, $address])) {
+                if ($stmt->execute([$username, $email, $hashed_password, $full_name, $phone, $address, $newsletter])) {
                     $success = true;
                     set_alert('success', 'Registration successful! You can now login with your credentials.');
+                    // Redirect to avoid form resubmission
+                    header('Location: signup.html?success=1');
+                    exit;
                 } else {
                     $errors[] = 'Registration failed. Please try again.';
                 }
