@@ -1,0 +1,26 @@
+on:
+  push:
+    branches:
+      - "feature/*"
+
+jobs:
+  auto-create-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - run: |
+          # Make changes if needed, e.g. update a file or run a script
+          date > timestamp.txt
+      - uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: "Auto-update at $(date)"
+          body: |
+            Automated changes committed by workflow.
+          labels: automated, ci
+          branch: auto-update-branch
+          base: main
