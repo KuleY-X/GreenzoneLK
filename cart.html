@@ -6,6 +6,7 @@
     <title>Shopping Cart - Greenzone LK</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="img/core-img/favicon.ico">
+    <meta name="csrf-token" content="<?php echo generate_csrf_token(); ?>">
     <style>
         * {
             margin: 0;
@@ -435,33 +436,60 @@
     </main>
 
     <script>
-        // Sample cart data - in a real app, this would come from localStorage or a database
-        let cartItems = [
-            {
-                id: 1,
-                name: "Aloe Vera Plant",
-                description: "Natural healing properties and air purification",
-                price: 1500,
-                quantity: 2,
-                image: "img/core-img/leaf.png"
-            },
-            {
-                id: 2,
-                name: "Organic Fertilizer",
-                description: "100% natural and chemical-free fertilizer",
-                price: 850,
-                quantity: 1,
-                image: "img/core-img/pot.png"
-            },
-            {
-                id: 3,
-                name: "Eco-Friendly Pot",
-                description: "Biodegradable and sustainable pot",
-                price: 650,
-                quantity: 3,
-                image: "img/core-img/pot.png"
+        // Check if user is logged in and get cart data from server
+        let cartItems = [];
+        let isLoggedIn = false;
+
+        // Function to load cart from server
+        async function loadCartFromServer() {
+            try {
+                const response = await fetch('get_cart_data.php');
+                const data = await response.json();
+                
+                if (data.success) {
+                    cartItems = data.cart_items || [];
+                    isLoggedIn = data.logged_in || false;
+                    renderCart();
+                } else {
+                    // If not logged in or error, use demo data
+                    loadDemoCart();
+                }
+            } catch (error) {
+                console.log('Using demo cart data');
+                loadDemoCart();
             }
-        ];
+        }
+
+        // Demo cart data fallback
+        function loadDemoCart() {
+            cartItems = [
+                {
+                    id: 1,
+                    name: "Aloe Vera Plant",
+                    description: "Natural healing properties and air purification",
+                    price: 1500,
+                    quantity: 2,
+                    image: "img/core-img/leaf.png"
+                },
+                {
+                    id: 2,
+                    name: "Organic Fertilizer",
+                    description: "100% natural and chemical-free fertilizer",
+                    price: 850,
+                    quantity: 1,
+                    image: "img/core-img/pot.png"
+                },
+                {
+                    id: 3,
+                    name: "Eco-Friendly Pot",
+                    description: "Biodegradable and sustainable pot",
+                    price: 650,
+                    quantity: 3,
+                    image: "img/core-img/pot.png"
+                }
+            ];
+            renderCart();
+        }
 
         function renderCart() {
             const cartContent = document.getElementById('cartContent');
@@ -473,6 +501,7 @@
                         <h2>Your cart is empty</h2>
                         <p>Looks like you haven't added any plants to your cart yet. Start shopping and create your green paradise!</p>
                         <a href="products.html" class="shop-now-btn">Start Shopping</a>
+                        ${!isLoggedIn ? '<p style="margin-top: 1rem;"><a href="login.html" style="color: #90c665;">Login</a> to save your cart items</p>' : ''}
                     </div>
                 `;
                 return;
@@ -487,9 +516,10 @@
                     <div class="cart-items">
                         <div class="cart-header">
                             <h2>Cart Items (${cartItems.length})</h2>
+                            ${!isLoggedIn ? '<p style="color: #666; font-size: 0.9rem;">Note: <a href="login.html" style="color: #90c665;">Login</a> to save your cart</p>' : ''}
                         </div>
                         ${cartItems.map(item => `
-                            <div class="cart-item">
+                            <div class="cart-item" data-cart-id="${item.id}">
                                 <div class="item-image">
                                     <img src="${item.image}" alt="${item.name}">
                                 </div>
@@ -535,7 +565,7 @@
                         </div>
 
                         <button class="checkout-btn" onclick="proceedToCheckout()">
-                            Proceed to Checkout
+                            ${isLoggedIn ? 'Proceed to Checkout' : 'Login to Checkout'}
                         </button>
 
                         <div class="continue-shopping">
@@ -546,25 +576,72 @@
             `;
         }
 
-        function updateQuantity(itemId, change) {
+        async function updateQuantity(itemId, change) {
             const item = cartItems.find(item => item.id === itemId);
-            if (item) {
-                item.quantity = Math.max(1, item.quantity + change);
+            if (!item) return;
+            
+            const newQuantity = Math.max(1, item.quantity + change);
+            
+            if (isLoggedIn) {
+                try {
+                    const response = await fetch('cart_actions.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `action=update_quantity&cart_id=${itemId}&quantity=${newQuantity}&csrf_token=${getCsrfToken()}`
+                    });
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        item.quantity = newQuantity;
+                        renderCart();
+                    } else {
+                        alert(result.message || 'Failed to update cart');
+                    }
+                } catch (error) {
+                    console.error('Error updating cart:', error);
+                    item.quantity = newQuantity;
+                    renderCart();
+                }
+            } else {
+                item.quantity = newQuantity;
                 renderCart();
             }
         }
 
         function setQuantity(itemId, newQuantity) {
-            const item = cartItems.find(item => item.id === itemId);
-            if (item) {
-                item.quantity = Math.max(1, parseInt(newQuantity) || 1);
-                renderCart();
-            }
+            const quantity = Math.max(1, parseInt(newQuantity) || 1);
+            updateQuantity(itemId, quantity - cartItems.find(item => item.id === itemId).quantity);
         }
 
-        function removeItem(itemId) {
-            cartItems = cartItems.filter(item => item.id !== itemId);
-            renderCart();
+        async function removeItem(itemId) {
+            if (isLoggedIn) {
+                try {
+                    const response = await fetch('cart_actions.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `action=remove_item&cart_id=${itemId}&csrf_token=${getCsrfToken()}`
+                    });
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        cartItems = cartItems.filter(item => item.id !== itemId);
+                        renderCart();
+                    } else {
+                        alert(result.message || 'Failed to remove item');
+                    }
+                } catch (error) {
+                    console.error('Error removing item:', error);
+                    cartItems = cartItems.filter(item => item.id !== itemId);
+                    renderCart();
+                }
+            } else {
+                cartItems = cartItems.filter(item => item.id !== itemId);
+                renderCart();
+            }
         }
 
         function applyPromo() {
@@ -585,13 +662,25 @@
                 return;
             }
             
-            alert('Proceeding to checkout... This would redirect to a payment page in a real application.');
-            // In a real app, this would redirect to checkout.html or process payment
+            if (!isLoggedIn) {
+                if (confirm('You need to login to proceed with checkout. Redirect to login page?')) {
+                    window.location.href = 'login.html?redirect=cart.html';
+                }
+                return;
+            }
+            
+            window.location.href = 'checkout.php';
+        }
+
+        function getCsrfToken() {
+            // Get CSRF token from a meta tag or hidden input
+            const tokenElement = document.querySelector('meta[name="csrf-token"]');
+            return tokenElement ? tokenElement.getAttribute('content') : '';
         }
 
         // Initialize cart on page load
         document.addEventListener('DOMContentLoaded', function() {
-            renderCart();
+            loadCartFromServer();
         });
     </script>
 </body>

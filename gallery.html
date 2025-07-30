@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Gallery - Greenzone LK</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="img/core-img/favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c2a 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #90c665;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title h1 {
+            color: #2d5016;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-title p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Gallery Filters */
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .filter-btn {
+            background: white;
+            color: #2d5016;
+            border: 2px solid #2d5016;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #2d5016;
+            color: white;
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .gallery-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(45deg, #90c665, #7ab84f);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-image img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(45, 80, 22, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .overlay-icon {
+            color: white;
+            font-size: 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 50%;
+        }
+
+        .gallery-info {
+            padding: 1.5rem;
+        }
+
+        .gallery-info h3 {
+            color: #2d5016;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .gallery-info p {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .gallery-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .gallery-category {
+            background: #90c665;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .gallery-date {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        /* Lightbox Modal */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        .lightbox-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            color: #90c665;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(144, 198, 101, 0.8);
+        }
+
+        .lightbox-prev {
+            left: -60px;
+        }
+
+        .lightbox-next {
+            right: -60px;
+        }
+
+        .lightbox-info {
+            position: absolute;
+            bottom: -60px;
+            left: 0;
+            right: 0;
+            color: white;
+            text-align: center;
+        }
+
+        .lightbox-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .lightbox-info p {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        /* Search Bar */
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .search-box {
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #90c665;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-filters {
+                gap: 0.5rem;
+            }
+
+            .filter-btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+
+            .lightbox-nav {
+                font-size: 1.5rem;
+                padding: 8px 12px;
+            }
+
+            .lightbox-prev {
+                left: 10px;
+            }
+
+            .lightbox-next {
+                right: 10px;
+            }
+
+            .lightbox-info {
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="img/core-img/leaf.png" alt="Greenzone LK Logo">
+                <h1>Greenzone LK</h1>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="products.html">Products</a>
+                <a href="navigation-menu.html">About</a>
+                <a href="#contact">Contact</a>
+                <a href="login.html">Login</a>
+                <a href="cart.html">Cart</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-title">
+            <h1>Plant Gallery</h1>
+            <p>Explore our beautiful collection of eco-friendly plants and gardening inspirations</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Search plants, categories, or descriptions..." id="searchInput">
+                <span class="search-icon">🔍</span>
+            </div>
+        </div>
+
+        <!-- Gallery Filters -->
+        <div class="gallery-filters">
+            <button class="filter-btn active" data-filter="all">All Plants</button>
+            <button class="filter-btn" data-filter="indoor">Indoor Plants</button>
+            <button class="filter-btn" data-filter="outdoor">Outdoor Plants</button>
+            <button class="filter-btn" data-filter="flowering">Flowering</button>
+            <button class="filter-btn" data-filter="succulents">Succulents</button>
+            <button class="filter-btn" data-filter="herbs">Herbs</button>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div class="gallery-grid" id="galleryGrid">
+            <!-- Gallery items will be populated by JavaScript -->
+        </div>
+    </main>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+            <span class="lightbox-nav lightbox-prev" onclick="changeImage(-1)">&#8249;</span>
+            <span class="lightbox-nav lightbox-next" onclick="changeImage(1)">&#8250;</span>
+            <img class="lightbox-image" id="lightboxImage" src="" alt="">
+            <div class="lightbox-info" id="lightboxInfo">
+                <h3 id="lightboxTitle"></h3>
+                <p id="lightboxDescription"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Gallery data
+        const galleryItems = [
+            {
+                id: 1,
+                title: "Aloe Vera Plant",
+                description: "Natural healing properties with beautiful succulent leaves",
+                category: "succulents",
+                image: "img/bg-img/1.jpg",
+                date: "2025-01-15"
+            },
+            {
+                id: 2,
+                title: "Peace Lily",
+                description: "Elegant white flowers that bloom in low light conditions",
+                category: "indoor",
+                image: "img/bg-img/2.jpg",
+                date: "2025-01-14"
+            },
+            {
+                id: 3,
+                title: "Rose Garden",
+                description: "Beautiful red roses perfect for outdoor gardens",
+                category: "flowering",
+                image: "img/bg-img/3.jpg",
+                date: "2025-01-13"
+            },
+            {
+                id: 4,
+                title: "Snake Plant",
+                description: "Low maintenance indoor plant with striking patterns",
+                category: "indoor",
+                image: "img/bg-img/4.jpg",
+                date: "2025-01-12"
+            },
+            {
+                id: 5,
+                title: "Lavender Fields",
+                description: "Aromatic herb perfect for relaxation and cooking",
+                category: "herbs",
+                image: "img/bg-img/5.jpg",
+                date: "2025-01-11"
+            },
+            {
+                id: 6,
+                title: "Cactus Collection",
+                description: "Diverse collection of desert succulents",
+                category: "succulents",
+                image: "img/bg-img/6.jpg",
+                date: "2025-01-10"
+            },
+            {
+                id: 7,
+                title: "Hibiscus Bloom",
+                description: "Tropical flowering plant with vibrant colors",
+                category: "flowering",
+                image: "img/bg-img/7.jpg",
+                date: "2025-01-09"
+            },
+            {
+                id: 8,
+                title: "Herb Garden",
+                description: "Fresh herbs for cooking and natural remedies",
+                category: "herbs",
+                image: "img/bg-img/8.jpg",
+                date: "2025-01-08"
+            },
+            {
+                id: 9,
+                title: "Monstera Deliciosa",
+                description: "Popular indoor plant with unique split leaves",
+                category: "indoor",
+                image: "img/bg-img/9.jpg",
+                date: "2025-01-07"
+            },
+            {
+                id: 10,
+                title: "Garden Landscape",
+                description: "Beautiful outdoor garden design inspiration",
+                category: "outdoor",
+                image: "img/bg-img/10.jpg",
+                date: "2025-01-06"
+            },
+            {
+                id: 11,
+                title: "Sunflower Field",
+                description: "Bright and cheerful sunflowers for outdoor spaces",
+                category: "flowering",
+                image: "img/bg-img/11.jpg",
+                date: "2025-01-05"
+            },
+            {
+                id: 12,
+                title: "Basil Plant",
+                description: "Fresh basil for culinary use and aromatherapy",
+                category: "herbs",
+                image: "img/bg-img/12.jpg",
+                date: "2025-01-04"
+            }
+        ];
+
+        let currentImageIndex = 0;
+        let filteredItems = [...galleryItems];
+
+        // Initialize gallery
+        function initGallery() {
+            renderGallery(galleryItems);
+            setupEventListeners();
+        }
+
+        // Render gallery items
+        function renderGallery(items) {
+            const galleryGrid = document.getElementById('galleryGrid');
+            
+            if (items.length === 0) {
+                galleryGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                        <h3 style="color: #666; margin-bottom: 1rem;">No plants found</h3>
+                        <p style="color: #999;">Try adjusting your search or filter criteria</p>
+                    </div>
+                `;
+                return;
+            }
+
+            galleryGrid.innerHTML = items.map(item => `
+                <div class="gallery-item" data-category="${item.category}" onclick="openLightbox(${item.id})">
+                    <div class="gallery-image">
+                        <img src="${item.image}" alt="${item.title}" loading="lazy">
+                        <div class="gallery-overlay">
+                            <span class="overlay-icon">🔍</span>
+                        </div>
+                    </div>
+                    <div class="gallery-info">
+                        <h3>${item.title}</h3>
+                        <p>${item.description}</p>
+                        <div class="gallery-meta">
+                            <span class="gallery-category">${item.category}</span>
+                            <span class="gallery-date">${formatDate(item.date)}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+        // Filter gallery
+        function filterGallery(category) {
+            filteredItems = category === 'all' ? [...galleryItems] : galleryItems.filter(item => item.category === category);
+            renderGallery(filteredItems);
+        }
+
+        // Search gallery
+        function searchGallery(searchTerm) {
+            const filtered = galleryItems.filter(item => 
+                item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                item.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                item.category.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            filteredItems = filtered;
+            renderGallery(filtered);
+        }
+
+        // Open lightbox
+        function openLightbox(itemId) {
+            const item = galleryItems.find(item => item.id === itemId);
+            if (!item) return;
+
+            currentImageIndex = filteredItems.findIndex(item => item.id === itemId);
+            
+            document.getElementById('lightboxImage').src = item.image;
+            document.getElementById('lightboxTitle').textContent = item.title;
+            document.getElementById('lightboxDescription').textContent = item.description;
+            document.getElementById('lightbox').classList.add('active');
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close lightbox
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Change image in lightbox
+        function changeImage(direction) {
+            currentImageIndex += direction;
+            
+            if (currentImageIndex < 0) {
+                currentImageIndex = filteredItems.length - 1;
+            } else if (currentImageIndex >= filteredItems.length) {
+                currentImageIndex = 0;
+            }
+            
+            const item = filteredItems[currentImageIndex];
+            document.getElementById('lightboxImage').src = item.image;
+            document.getElementById('lightboxTitle').textContent = item.title;
+            document.getElementById('lightboxDescription').textContent = item.description;
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Update active state
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Filter gallery
+                    filterGallery(this.dataset.filter);
+                });
+            });
+
+            // Search input
+            document.getElementById('searchInput').addEventListener('input', function() {
+                searchGallery(this.value);
+            });
+
+            // Lightbox keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (document.getElementById('lightbox').classList.contains('active')) {
+                    if (e.key === 'Escape') {
+                        closeLightbox();
+                    } else if (e.key === 'ArrowLeft') {
+                        changeImage(-1);
+                    } else if (e.key === 'ArrowRight') {
+                        changeImage(1);
+                    }
+                }
+            });
+
+            // Close lightbox on background click
+            document.getElementById('lightbox').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeLightbox();
+                }
+            });
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initGallery);
+    </script>
+</body>
+</html>
