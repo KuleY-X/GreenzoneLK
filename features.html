@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features - GreenzoneLk</title>
+    <meta name="description" content="Discover the features that make GreenzoneLk the best choice for plant shopping">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #ffffff;
+        }
+
+        /* Navigation Styles */
+        nav {
+            background: linear-gradient(135deg, #4caf50, #81c784);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .brand-logo {
+            font-size: 2.2rem;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover, .nav-menu a.active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 3rem 0;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(129, 199, 132, 0.1));
+            border-radius: 20px;
+            margin: 2rem 0;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            color: #2e7d32;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin: 4rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(76, 175, 80, 0.2);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(135deg, #4caf50, #81c784);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #4caf50, #81c784);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        .feature-card h3 {
+            color: #2e7d32;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .feature-list li {
+            color: #666;
+            padding: 0.3rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        .highlight-section {
+            background: linear-gradient(135deg, #4caf50, #81c784);
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            margin: 4rem 0;
+        }
+
+        .highlight-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .highlight-section p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: white;
+            color: #4caf50;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+        }
+
+        .btn:hover {
+            background: #f1f8e9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .feature-card {
+                padding: 2rem;
+            }
+
+            .highlight-section {
+                padding: 3rem 1rem;
+            }
+
+            .highlight-section h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="brand">
+                <span class="brand-logo">🌿</span>
+                GreenzoneLk
+            </a>
+            
+            <ul class="nav-menu">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="features.html" class="active">Features</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="cart.html">Cart</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1>🌟 Why Choose GreenzoneLk?</h1>
+                <p>Discover the features and benefits that make us Sri Lanka's premier plant destination</p>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🌱</div>
+                    <h3>Premium Quality Plants</h3>
+                    <p>Hand-selected, healthy plants that are guaranteed to thrive in Sri Lankan climate conditions.</p>
+                    <ul class="feature-list">
+                        <li>Locally sourced and adapted varieties</li>
+                        <li>Health guarantee on all plants</li>
+                        <li>Pre-quarantined for pest-free delivery</li>
+                        <li>Detailed care instructions included</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🚚</div>
+                    <h3>Island-Wide Delivery</h3>
+                    <p>Fast, secure delivery across Sri Lanka with specialized plant-friendly packaging.</p>
+                    <ul class="feature-list">
+                        <li>Same-day delivery in Colombo & Gampaha</li>
+                        <li>2-3 day delivery island-wide</li>
+                        <li>Specialized plant packaging</li>
+                        <li>Real-time tracking available</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💡</div>
+                    <h3>Expert Plant Care Support</h3>
+                    <p>Get personalized advice from our horticultural experts for all your gardening needs.</p>
+                    <ul class="feature-list">
+                        <li>24/7 WhatsApp plant support</li>
+                        <li>Video consultation available</li>
+                        <li>Seasonal care reminders</li>
+                        <li>Troubleshooting guidance</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🌿</div>
+                    <h3>100% Eco-Friendly</h3>
+                    <p>Sustainable practices from sourcing to packaging, caring for our planet every step of the way.</p>
+                    <ul class="feature-list">
+                        <li>Biodegradable packaging materials</li>
+                        <li>Organic fertilizers and soil mixes</li>
+                        <li>Water-wise plant recommendations</li>
+                        <li>Carbon-neutral delivery options</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🛒</div>
+                    <h3>Easy Online Shopping</h3>
+                    <p>User-friendly website with secure payment options and seamless shopping experience.</p>
+                    <ul class="feature-list">
+                        <li>Mobile-responsive design</li>
+                        <li>Secure payment gateway</li>
+                        <li>Saved wishlists and favorites</li>
+                        <li>Order history and reordering</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Best Value Pricing</h3>
+                    <p>Competitive prices with regular promotions and loyalty rewards for our valued customers.</p>
+                    <ul class="feature-list">
+                        <li>Price match guarantee</li>
+                        <li>Loyalty points on every purchase</li>
+                        <li>Seasonal discounts and offers</li>
+                        <li>Bulk order discounts available</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Highlight Section -->
+            <div class="highlight-section">
+                <h2>🎯 Our Promise to You</h2>
+                <p>We're committed to making your plant journey successful and enjoyable. From the moment you browse our selection to long after your plants arrive, we're here to support your green lifestyle every step of the way.</p>
+                <a href="products.html" class="btn">Start Shopping Now</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
