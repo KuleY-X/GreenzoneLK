@@ -1,22 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="GreenzoneLk - Your trusted source for eco-friendly plants and gardening products in Sri Lanka">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Title -->
-    <title>GreenzoneLk - Eco-Friendly Plants & Gardening Products</title>
-
-    <!-- Favicon -->
-    <link rel="icon" href="img/core-img/favicon.ico">
-
-    <!-- Google Fonts -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenzoneLk - Premium Plants & Garden Solutions</title>
+    <meta name="description" content="GreenzoneLk - Your destination for eco-friendly plant shopping">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Custom Stylesheet -->
     <style>
         * {
             margin: 0;
@@ -28,48 +17,63 @@
             font-family: 'Poppins', sans-serif;
             line-height: 1.6;
             color: #333;
-            background-color: #f8f9fa;
+            background-color: #ffffff;
+            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header Styles */
-        .header {
-            background: linear-gradient(135deg, #2d5016 0%, #4a7c2a 100%);
-            color: white;
+        /* Navigation Styles */
+        nav {
+            background: linear-gradient(135deg, #4caf50, #81c784);
             padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 4px 20px rgba(76, 175, 80, 0.3);
+            backdrop-filter: blur(10px);
         }
 
-        .header .container {
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo img {
-            width: 40px;
-            height: 40px;
-        }
-
-        .logo h1 {
+        .brand {
             font-size: 2rem;
             font-weight: 700;
             color: white;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* Z-shaped hover effect */
+        .brand::before {
+            content: 'GreenzoneLk';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 40%, white 50%, transparent 60%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: left 0.6s ease;
+        }
+
+        .brand:hover::before {
+            left: 100%;
+        }
+
+        .brand:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
         }
 
         .nav-menu {
@@ -83,354 +87,275 @@
             color: white;
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
             padding: 8px 16px;
-            border-radius: 8px;
+            border-radius: 20px;
         }
 
         .nav-menu a:hover {
-            color: #90c665;
-            background: rgba(144, 198, 101, 0.1);
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .login-btn, .cart-btn {
-            background: #90c665;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .login-btn:hover, .cart-btn:hover {
-            background: #7ab84f;
+            background: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(144, 198, 101, 0.3);
-            color: white;
         }
 
-        .cart-badge {
-            background: #2d5016;
-            color: white;
-            border-radius: 50%;
-            padding: 2px 6px;
-            font-size: 0.8rem;
-            font-weight: bold;
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 80%;
+            left: 10%;
+        }
+
+        /* Mobile Menu */
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-toggle span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
         }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(45, 80, 22, 0.8), rgba(74, 124, 42, 0.8)), url('img/bg-img/1.jpg');
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.8), rgba(129, 199, 132, 0.8)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23e8f5e8" width="1200" height="800"/><circle fill="%234caf50" opacity="0.1" cx="300" cy="200" r="150"/><circle fill="%2381c784" opacity="0.1" cx="900" cy="600" r="200"/><circle fill="%234caf50" opacity="0.05" cx="600" cy="400" r="250"/><path fill="%23388e3c" opacity="0.1" d="M0,600 Q300,500 600,600 T1200,600 L1200,800 L0,800 Z"/></svg>');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
-            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            padding: 150px 0 100px;
-            margin-top: 80px;
+            color: white;
+            padding-top: 80px;
+            position: relative;
         }
 
-        .hero h2 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: white;
+        .hero-content {
+            max-width: 800px;
+            padding: 0 20px;
             animation: fadeInUp 1s ease-out;
         }
 
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: slideInLeft 1s ease-out 0.2s both;
+        }
+
         .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
+            font-size: 1.4rem;
+            margin-bottom: 3rem;
+            opacity: 0.95;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
-            color: #e8f5e8;
-            animation: fadeInUp 1s ease-out 0.3s both;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            animation: slideInRight 1s ease-out 0.4s both;
         }
 
-        .cta-button {
-            background: #90c665;
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(144, 198, 101, 0.3);
+        .hero-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
             animation: fadeInUp 1s ease-out 0.6s both;
         }
 
-        .cta-button:hover {
-            background: #7ab84f;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(144, 198, 101, 0.4);
-            color: white;
+        .btn {
+            display: inline-block;
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Featured Products Section */
-        .featured-products {
-            padding: 80px 0;
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
             background: white;
+            color: #4caf50;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: #f1f8e9;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 3px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #4caf50;
+            transform: translateY(-5px);
+        }
+
+        /* Category Section */
+        .categories {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #f8f9fa, #e8f5e8);
+        }
+
+        .categories-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
         .section-title {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
+            animation: fadeInUp 1s ease-out;
         }
 
         .section-title h2 {
-            font-size: 2.5rem;
-            color: #2d5016;
+            font-size: 3rem;
+            font-weight: 700;
+            color: #2e7d32;
             margin-bottom: 1rem;
-            font-weight: 600;
         }
 
         .section-title p {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: #666;
             max-width: 600px;
             margin: 0 auto;
         }
 
-        /* Buy Products Button */
-        .buy-products-btn {
-            background: #2d5016;
-            color: white;
-            padding: 15px 40px;
-            border: none;
-            border-radius: 25px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(45, 80, 22, 0.3);
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .buy-products-btn:hover {
-            background: #4a7c2a;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(45, 80, 22, 0.4);
-            color: white;
-        }
-
-        .button-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .products-grid {
+        .categories-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
         }
 
-        .product-card {
+        .category-card {
             background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        }
-
-        .product-image {
-            height: 200px;
-            background: linear-gradient(45deg, #90c665, #7ab84f);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.1);
+            transition: all 0.4s ease;
+            cursor: pointer;
             position: relative;
             overflow: hidden;
+            animation: zoomIn 0.6s ease-out both;
         }
 
-        .product-image img {
+        .category-card:nth-child(1) { animation-delay: 0.1s; }
+        .category-card:nth-child(2) { animation-delay: 0.2s; }
+        .category-card:nth-child(3) { animation-delay: 0.3s; }
+        .category-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(129, 199, 132, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .category-card:hover::before {
+            opacity: 1;
+        }
+
+        .category-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(76, 175, 80, 0.2);
+        }
+
+        .category-icon {
             width: 80px;
             height: 80px;
-            filter: brightness(0) invert(1);
-        }
-
-        .product-info {
-            padding: 1.5rem;
-        }
-
-        .product-info h3 {
-            font-size: 1.3rem;
-            color: #2d5016;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .product-info p {
-            color: #666;
-            margin-bottom: 1rem;
-            font-size: 0.95rem;
-        }
-
-        .product-price {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #90c665;
-        }
-
-        /* About Section */
-        .about-section {
-            padding: 80px 0;
-            background: #f8f9fa;
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .about-text h2 {
-            font-size: 2.2rem;
-            color: #2d5016;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .about-text p {
-            color: #666;
-            margin-bottom: 1.5rem;
-        }
-
-        .about-image {
-            text-align: center;
-        }
-
-        .about-image img {
-            max-width: 100%;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        /* Features Section */
-        .features-section {
-            padding: 80px 0;
-            background: white;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .feature-item {
-            text-align: center;
-            padding: 2rem;
-            background: #f8f9fa;
-            border-radius: 15px;
-            transition: transform 0.3s ease;
-        }
-
-        .feature-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: #90c665;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #4caf50, #81c784);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1rem;
-        }
-
-        .feature-icon img {
-            width: 30px;
-            height: 30px;
-            filter: brightness(0) invert(1);
-        }
-
-        .feature-item h3 {
-            color: #2d5016;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .feature-item p {
-            color: #666;
-            font-size: 0.95rem;
-        }
-
-        /* Footer */
-        .footer {
-            background: #2d5016;
+            font-size: 2.5rem;
             color: white;
-            text-align: center;
-            padding: 3rem 0 2rem;
+            transition: all 0.3s ease;
         }
 
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-            text-align: left;
+        .category-card:hover .category-icon {
+            transform: rotate(10deg) scale(1.1);
         }
 
-        .footer-section h3 {
-            color: #90c665;
+        .category-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2e7d32;
             margin-bottom: 1rem;
-            font-weight: 600;
         }
 
-        .footer-section p, .footer-section a {
-            color: #e8f5e8;
-            text-decoration: none;
+        .category-card p {
+            color: #666;
             line-height: 1.6;
+            margin-bottom: 1.5rem;
         }
 
-        .footer-section a:hover {
-            color: #90c665;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid #4a7c2a;
-        }
-
-        .footer-bottom p {
-            color: #e8f5e8;
-        }
-
-        .footer-bottom a {
-            color: #90c665;
-            text-decoration: none;
-        }
-
-        .footer-bottom a:hover {
+        .category-link {
+            display: inline-block;
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #4caf50, #81c784);
             color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .category-link:hover {
+            background: linear-gradient(135deg, #388e3c, #4caf50);
+            transform: translateY(-2px);
         }
 
         /* Animations */
@@ -445,353 +370,221 @@
             }
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header .container {
-                flex-direction: column;
-                gap: 1rem;
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
             }
-
-            .header nav {
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .nav-menu {
-                gap: 1rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .nav-buttons {
-                gap: 0.5rem;
-            }
-
-            .login-btn, .cart-btn {
-                padding: 8px 16px;
-                font-size: 0.9rem;
-            }
-
-            .hero {
-                padding: 120px 0 80px;
-            }
-
-            .hero h2 {
-                font-size: 2.5rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .about-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .buy-products-btn {
-                padding: 12px 30px;
-                font-size: 1rem;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                text-align: center;
+            to {
+                opacity: 1;
+                transform: translateX(0);
             }
         }
 
-        @media (max-width: 480px) {
-            .hero h2 {
-                font-size: 2rem;
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
             }
-
-            .section-title h2 {
-                font-size: 2rem;
+            to {
+                opacity: 1;
+                transform: translateX(0);
             }
+        }
 
-            .logo h1 {
-                font-size: 1.5rem;
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
             }
-
-            .container {
-                padding: 0 15px;
+            to {
+                opacity: 1;
+                transform: scale(1);
             }
+        }
 
-            .buy-products-btn {
-                padding: 10px 25px;
-                font-size: 0.95rem;
-                width: 100%;
-                max-width: 250px;
-            }
-
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
             .nav-menu {
                 display: none;
-                position: absolute;
-                top: 100%;
+                position: fixed;
+                top: 80px;
                 left: 0;
                 width: 100%;
-                background: #2d5016;
+                background: linear-gradient(135deg, #4caf50, #81c784);
                 flex-direction: column;
-                padding: 1rem;
-                z-index: 1001;
+                padding: 2rem 0;
+                text-align: center;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             }
-            
+
             .nav-menu.active {
                 display: flex;
             }
 
-            .nav-buttons {
-                flex-direction: column;
-                gap: 0.5rem;
-                width: 100%;
+            .mobile-toggle {
+                display: flex;
             }
 
-            .login-btn, .cart-btn {
-                padding: 6px 12px;
-                font-size: 0.8rem;
-                width: 100%;
-                justify-content: center;
+            .brand {
+                font-size: 1.6rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 280px;
+                text-align: center;
+            }
+
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
         }
 
-        /* Smooth scrolling */
+        @media screen and (max-width: 480px) {
+            .nav-container {
+                padding: 0 15px;
+            }
+
+            .brand {
+                font-size: 1.4rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .btn {
+                padding: 12px 25px;
+                font-size: 1rem;
+                width: 250px;
+            }
+
+            .category-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
         html {
             scroll-behavior: smooth;
         }
 
-        /* Mobile menu toggle (simple implementation) */
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        @media (max-width: 480px) {
-            .menu-toggle {
-                display: block;
-            }
+        /* Focus styles for accessibility */
+        .nav-menu a:focus,
+        .btn:focus,
+        .category-card:focus {
+            outline: 3px solid #81c784;
+            outline-offset: 2px;
         }
     </style>
-
 </head>
-
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="logo">
-                <a href="gallery.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: white;">
-                    <img src="img/core-img/leaf.png" alt="GreenzoneLk Logo">
-                    <h1>GreenzoneLk</h1>
-                </a>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="brand">GreenzoneLk</a>
+            
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#login">Login</a></li>
+                <li><a href="#cart">Cart</a></li>
+            </ul>
+
+            <div class="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
-            <nav>
-                <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-                <ul class="nav-menu" id="navMenu">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="products.html">Products</a></li>
-                    <li><a href="navigation-menu.html">About</a></li>
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-                <div class="nav-buttons">
-                    <a href="login.html" class="login-btn">
-                        👤 Login
-                    </a>
-                    <a href="signup.html" class="login-btn" style="background: #7ab84f;">
-                        ✨ Sign Up
-                    </a>
-                    <a href="cart.html" class="cart-btn">
-                        🛒 Cart <span class="cart-badge">3</span>
-                    </a>
-                </div>
-            </nav>
         </div>
-    </header>
+    </nav>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
-        <div class="container">
-            <h2>Welcome to GreenzoneLk</h2>
-            <p>Your trusted partner for eco-friendly plants and sustainable gardening solutions in Sri Lanka. Transform your space into a green paradise with our premium collection of plants and gardening products.</p>
-            <a href="#products" class="cta-button">Explore Our Products</a>
+        <div class="hero-content">
+            <h1>Welcome to GreenzoneLk</h1>
+            <p>Your destination for eco-friendly plant shopping</p>
+            <div class="hero-buttons">
+                <a href="#products" class="btn btn-primary">Explore Our Products</a>
+                <a href="#shop" class="btn btn-secondary">Buy Our Products</a>
+            </div>
         </div>
     </section>
 
-    <!-- Featured Products Section -->
-    <section id="products" class="featured-products">
-        <div class="container">
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="categories-container">
             <div class="section-title">
-                <h2>Featured Products</h2>
-                <p>Discover our carefully selected range of eco-friendly plants and gardening essentials, perfect for creating your own green sanctuary.</p>
-                <div class="button-container">
-                    <a href="navigation-menu.html" class="buy-products-btn">Buy Our Products</a>
-                </div>
+                <h2>Plant Categories</h2>
+                <p>Discover our wide range of plants and gardening essentials</p>
             </div>
             
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="img/core-img/leaf.png" alt="Aloe Vera">
-                    </div>
-                    <div class="product-info">
-                        <h3>Aloe Vera Plants</h3>
-                        <p>Natural healing properties and air purification. Perfect for indoor and outdoor spaces. Low maintenance and highly beneficial for your health and home environment.</p>
-                        <div class="product-price">Rs. 1,500</div>
-                    </div>
+            <div class="categories-grid">
+                <div class="category-card" tabindex="0">
+                    <div class="category-icon">🌿</div>
+                    <h3>Indoor Plants</h3>
+                    <p>Beautiful houseplants that purify your air and brighten your space</p>
+                    <a href="indoor.html" class="category-link">Shop Indoor Plants</a>
                 </div>
 
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="img/core-img/pot.png" alt="Organic Fertilizer">
-                    </div>
-                    <div class="product-info">
-                        <h3>Organic Fertilizer</h3>
-                        <p>100% natural and chemical-free fertilizer to nourish your plants. Environmentally safe and highly effective for all plant types and garden sizes.</p>
-                        <div class="product-price">Rs. 850</div>
-                    </div>
+                <div class="category-card" tabindex="0">
+                    <div class="category-icon">🌳</div>
+                    <h3>Outdoor Plants</h3>
+                    <p>Hardy outdoor plants perfect for gardens, patios, and landscapes</p>
+                    <a href="outdoor.html" class="category-link">Shop Outdoor Plants</a>
                 </div>
 
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="img/core-img/pot.png" alt="Eco Pots">
-                    </div>
-                    <div class="product-info">
-                        <h3>Eco-Friendly Pots</h3>
-                        <p>Biodegradable and sustainable pots made from natural materials. Available in various sizes for all your planting needs and garden projects.</p>
-                        <div class="product-price">Rs. 650</div>
-                    </div>
+                <div class="category-card" tabindex="0">
+                    <div class="category-icon">🛠️</div>
+                    <h3>Garden Tools</h3>
+                    <p>Professional-grade tools for all your gardening needs</p>
+                    <a href="tools.html" class="category-link">Shop Tools</a>
+                </div>
+
+                <div class="category-card" tabindex="0">
+                    <div class="category-icon">🌱</div>
+                    <h3>Seeds & Bulbs</h3>
+                    <p>Premium quality seeds and bulbs to start your garden journey</p>
+                    <a href="seeds.html" class="category-link">Shop Seeds</a>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- About Section -->
-    <section id="about" class="about-section">
-        <div class="container">
-            <div class="about-content">
-                <div class="about-text">
-                    <h2>Why Choose GreenzoneLk?</h2>
-                    <p>At GreenzoneLk, we're passionate about bringing nature closer to your everyday life. Our mission is to provide sustainable, eco-friendly gardening solutions that benefit both you and the environment.</p>
-                    <p>With years of expertise in horticulture and a commitment to quality, we offer carefully selected plants and gardening products that thrive in Sri Lankan climate conditions. Every product is chosen with sustainability and environmental responsibility in mind.</p>
-                    <a href="#contact" class="cta-button">Get In Touch</a>
-                </div>
-                <div class="about-image">
-                    <img src="img/bg-img/2.jpg" alt="About GreenzoneLk" style="width: 100%; height: 350px; object-fit: cover;">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="features-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Why We're Different</h2>
-                <p>Committed to excellence in every aspect of our service and products.</p>
-            </div>
-            
-            <div class="features-grid">
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <img src="img/core-img/leaf.png" alt="Eco-Friendly">
-                    </div>
-                    <h3>100% Eco-Friendly</h3>
-                    <p>All our products are sustainably sourced and environmentally responsible.</p>
-                </div>
-
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <img src="img/core-img/pot.png" alt="Quality Products">
-                    </div>
-                    <h3>Premium Quality</h3>
-                    <p>Hand-selected plants and products that meet our high standards for quality.</p>
-                </div>
-
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <img src="img/core-img/leaf.png" alt="Expert Support">
-                    </div>
-                    <h3>Expert Support</h3>
-                    <p>Professional guidance and support for all your gardening needs and questions.</p>
-                </div>
-
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <img src="img/core-img/pot.png" alt="Fast Delivery">
-                    </div>
-                    <h3>Island-wide Delivery</h3>
-                    <p>Fast and secure delivery across Sri Lanka with careful plant handling.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer id="contact" class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>GreenzoneLk</h3>
-                    <p>Your trusted partner for eco-friendly plants and sustainable gardening solutions in Sri Lanka.</p>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Contact Info</h3>
-                    <p>📧 info@greenzonelk.com</p>
-                    <p>📞 +94 771349265</p>
-                    <p>📞 +94 771349263</p>
-                    <p>📞 +94 765532858</p>
-                    <p>📍 Gampaha, Sri Lanka</p>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <p><a href="#home">Home</a></p>
-                    <p><a href="#products">Products</a></p>
-                    <p><a href="#about">About Us</a></p>
-                    <p><a href="#contact">Contact</a></p>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 GreenzoneLk. All rights reserved. | Eco-friendly plants and gardening solutions for a greener Sri Lanka.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Simple JavaScript for mobile menu -->
-    <script>
-        function toggleMenu() {
-            const navMenu = document.getElementById('navMenu');
-            navMenu.classList.toggle('active');
-        }
-
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-                // Close mobile menu if open
-                document.getElementById('navMenu').classList.remove('active');
-            });
-        });
-    </script>
 </body>
-
 </html>
