@@ -188,6 +188,92 @@
             font-weight: 500;
         }
 
+        /* Quick Navigation Section */
+        .quick-nav-section {
+            background: white;
+            padding: 4rem 2rem;
+            border-radius: 20px;
+            margin: 3rem 0;
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.1);
+        }
+
+        .quick-nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .quick-nav-card {
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            padding: 2rem;
+            border-radius: 15px;
+            text-decoration: none;
+            color: inherit;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quick-nav-card:hover {
+            transform: translateY(-5px);
+            border-color: #4caf50;
+            box-shadow: 0 15px 30px rgba(76, 175, 80, 0.2);
+        }
+
+        .quick-nav-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(135deg, #4caf50, #81c784);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .quick-nav-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .nav-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .quick-nav-card h3 {
+            color: #2e7d32;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .quick-nav-card p {
+            color: #666;
+            line-height: 1.6;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-arrow {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            color: #4caf50;
+            transform: translateX(-10px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .quick-nav-card:hover .nav-arrow {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .nav-menu {
@@ -205,6 +291,19 @@
             .welcome-content {
                 grid-template-columns: 1fr;
                 gap: 2rem;
+            }
+
+            .quick-nav-section {
+                padding: 3rem 1rem;
+            }
+
+            .quick-nav-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .quick-nav-card {
+                padding: 1.5rem;
             }
         }
     </style>
@@ -258,6 +357,40 @@
                     <h3>💚 Expert Plant Care</h3>
                     <p>Our team of horticultural experts is always ready to help you succeed. Get personalized advice for your specific plants and growing conditions.</p>
                     <a href="about.html" class="btn">Meet Our Team</a>
+                </div>
+            </div>
+
+            <!-- Quick Navigation Section -->
+            <div class="quick-nav-section">
+                <h2 style="text-align: center; color: #2e7d32; margin-bottom: 2rem;">Explore GreenzoneLk</h2>
+                <div class="quick-nav-grid">
+                    <a href="products.html" class="quick-nav-card">
+                        <div class="nav-icon">🛍️</div>
+                        <h3>Products</h3>
+                        <p>Browse our extensive collection of premium plants, from indoor favorites to outdoor beauties.</p>
+                        <span class="nav-arrow">→</span>
+                    </a>
+
+                    <a href="about.html" class="quick-nav-card">
+                        <div class="nav-icon">🌿</div>
+                        <h3>About</h3>
+                        <p>Learn about our story, mission, and the passionate team behind GreenzoneLk.</p>
+                        <span class="nav-arrow">→</span>
+                    </a>
+
+                    <a href="features.html" class="quick-nav-card">
+                        <div class="nav-icon">⭐</div>
+                        <h3>Features</h3>
+                        <p>Discover what makes us Sri Lanka's premier destination for plant shopping.</p>
+                        <span class="nav-arrow">→</span>
+                    </a>
+
+                    <a href="contact.html" class="quick-nav-card">
+                        <div class="nav-icon">📞</div>
+                        <h3>Contact</h3>
+                        <p>Get in touch for expert advice, support, or to schedule a greenhouse visit.</p>
+                        <span class="nav-arrow">→</span>
+                    </a>
                 </div>
             </div>
 
